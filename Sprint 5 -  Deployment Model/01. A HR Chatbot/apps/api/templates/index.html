@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HR Chatbot</title>
+    <style>
+        body { font-family: Arial; background:#f4f4f4; }
+        #chat { max-width:600px; margin:auto; padding:20px; }
+        .msg { padding:10px; margin:10px; border-radius:8px; }
+        .user { background:#d1e7dd; text-align:right; }
+        .bot { background:#fff; }
+        input { width:80%; padding:10px; }
+        button { padding:10px; }
+    </style>
+</head>
+<body>
+
+<div id="chat">
+    <h2>🤖 HR Chatbot</h2>
+    <div id="messages"></div>
+
+    <input id="input" placeholder="Ask something..." />
+    <button onclick="send()">Send</button>
+</div>
+
+<script>
+async function send() {
+    const input = document.getElementById("input");
+    const text = input.value;
+
+    if (!text) return;
+
+    addMessage(text, "user");
+    input.value = "";
+
+    const res = await fetch("/chat?query=" + encodeURIComponent(text), {
+        method: "POST"
+    });
+
+    const data = await res.json();
+    addMessage(data.answer, "bot");
+}
+
+function addMessage(text, type) {
+    const div = document.createElement("div");
+    div.className = "msg " + type;
+    div.innerText = text;
+    document.getElementById("messages").appendChild(div);
+}
+</script>
+
+</body>
+</html>

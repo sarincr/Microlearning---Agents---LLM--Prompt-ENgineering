@@ -1,0 +1,2 @@
+MODEL_NAME = "llama3.2"
+OLLAMA_BASE_URL = "http://127.0.0.1:11434"

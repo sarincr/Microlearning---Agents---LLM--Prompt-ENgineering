@@ -1,0 +1,105 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Hello Submit",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Name",
+              "placeholder": "Capital",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Question"
+            }
+          ]
+        },
+        "options": {
+          "buttonLabel": "Submit"
+        }
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "91dad1a7-31f6-44e6-acb5-2c7b61ecc9bb",
+      "name": "On form submission",
+      "webhookId": "dd6b0f48-3313-47ab-a127-cf8e088a3aa8"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-flash-lite",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        380,
+        260
+      ],
+      "id": "ca3cdf60-c483-4d87-b888-e9b892a05f35",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "IAWH4BwIpsl5ftVY",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{$json.Question}}",
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        440,
+        0
+      ],
+      "id": "d37dd0f0-6e4c-454f-a06e-3885d7cae42f",
+      "name": "Basic LLM Chain"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "b43e439f-cea0-4f1e-b166-0ba14438caf4",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "131f1c46f5d939693261e99c6fb2eecf15aea12d5a39bbf9a17f1c55f00ff93a"
+  },
+  "id": "N9kYwhJUX9mkTXcJ",
+  "tags": []
+}
